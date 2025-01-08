@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Saloon.CalculationPage">
+
+    <StackLayout>
+        <Label Text="Введите информацию о расчете" 
+               HorizontalOptions="CenterAndExpand" />
+
+        <Entry x:Name="calculationNameEntry" Placeholder="Имя расчёта" />
+        <Entry x:Name="totalAmountEntry" Placeholder="Сумма" Keyboard="Numeric" />
+
+        <Button Text="Добавить расчёт"
+                Clicked="OnAddCalculationClicked" />
+
+        <ListView x:Name="calculationListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding CalculationName}" Detail="{Binding TotalAmount}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

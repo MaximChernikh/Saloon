@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Saloon.EstablishmentsPage">
+
+    <StackLayout>
+        <Label Text="Список заведений" HorizontalOptions="CenterAndExpand" />
+
+        <Entry x:Name="establishmentNameEntry" Placeholder="Название заведения" />
+        <Entry x:Name="establishmentLocationEntry" Placeholder="Местоположение" />
+        
+        <Button Text="Добавить заведение"
+                Clicked="OnAddEstablishmentClicked" />
+
+        <ListView x:Name="establishmentsListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Location}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Saloon.AppShell"
+             xmlns:local="clr-namespace:Saloon">
+
+    <ShellContent 
+        Title="Расчёт"
+        ContentTemplate="{DataTemplate local:CalculationPage}"
+        Route="CalculationPage"/>
+    <ShellContent
+        Title="Establishment"
+        ContentTemplate="{DataTemplate local:EstablishmentsPage}" 
+        Route="EstablishmentPage"/>
+    <ShellContent 
+        Title="Friends"
+        ContentTemplate="{DataTemplate local:FriendsPage}" 
+        Route="FriendsPage"/>
+
+</Shell>

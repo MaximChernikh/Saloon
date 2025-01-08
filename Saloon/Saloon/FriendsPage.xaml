@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Saloon.FriendsPage">
+
+    <StackLayout>
+        <Label Text="Список друзей" HorizontalOptions="CenterAndExpand" />
+
+        <Entry x:Name="friendNameEntry" Placeholder="Имя друга" />
+        <Button Text="Добавить друга"
+                Clicked="OnAddFriendClicked" />
+
+        <ListView x:Name="friendsListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
