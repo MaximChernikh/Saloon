@@ -1,21 +1,43 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Saloon.EstablishmentsPage">
+             x:Class="Saloon.EstablishmentsPage"
+             Title="Заведения">
 
-    <StackLayout>
-        <Label Text="Список заведений" HorizontalOptions="CenterAndExpand" />
+    <StackLayout WidthRequest="800">
+        <Label Text="Список заведений" 
+               HorizontalOptions="CenterAndExpand" 
+               FontSize="Medium"/>
+        <Label/>
 
         <Entry x:Name="establishmentNameEntry" Placeholder="Название заведения" />
         <Entry x:Name="establishmentLocationEntry" Placeholder="Местоположение" />
-        
+
+        <Label/>
         <Button Text="Добавить заведение"
                 Clicked="OnAddEstablishmentClicked" />
 
-        <ListView x:Name="establishmentsListView">
+        <Label/>
+        <ListView x:Name="establishmentsListView"
+                  ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding Location}" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Label Text="{Binding Name}" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Location}" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Button Text="Удалить" 
+                                    Clicked="OnDeleteClicked" 
+                                    CommandParameter="{Binding .}"
+                                    HorizontalOptions="End"
+                                    Margin="5"
+                                    TextColor="White"
+                                    BackgroundColor="DarkRed"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

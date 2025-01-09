@@ -1,15 +1,13 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
-using SQLite;
 
 namespace Saloon.Models
 {
     [Table("calculations")]
     public class Calculation
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Column("id")]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
         [Column("calculation_name")]
@@ -21,15 +19,15 @@ namespace Saloon.Models
         [Column("total_amount")]
         public decimal TotalAmount { get; set; }
 
-        [Column("participants")]
-        public List<Friend> Participants { get; set; }
+        // Мы не можем напрямую хранить список участников в SQLite,
+        // поэтому мы будем хранить их отдельно и связывать по ID расчета
 
+        public Calculation() { }
 
-        public Calculation(string calculationName, DateTime date, List<Friend> participants, decimal totalAmount)
+        public Calculation(string calculationName, DateTime date, decimal totalAmount)
         {
             CalculationName = calculationName;
             Date = date;
-            Participants = participants;
             TotalAmount = totalAmount;
         }
 

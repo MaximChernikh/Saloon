@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Saloon.FriendsPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Saloon.FriendsPage"
+             Title="Друзья">
+    <StackLayout WidthRequest="800">
+        <Label/>
+        <Entry x:Name="nameEntry" Placeholder="Введите имя друга" />
 
-    <StackLayout>
-        <Label Text="Список друзей" HorizontalOptions="CenterAndExpand" />
+        <Label/>
+        <Button Text="Add Friend" Clicked="OnAddFriendClicked" />
 
-        <Entry x:Name="friendNameEntry" Placeholder="Имя друга" />
-        <Button Text="Добавить друга"
-                Clicked="OnAddFriendClicked" />
+        <Label/>
 
-        <ListView x:Name="friendsListView">
+
+        <ListView x:Name="friendsList"
+                  ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Label Text="{Binding Name}"
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Button Text="Удалить" 
+                                    Clicked="OnDeleteClicked" 
+                                    CommandParameter="{Binding .}"
+                                    HorizontalOptions="End"
+                                    Margin="5"
+                                    TextColor="White"
+                                    BackgroundColor="DarkRed"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

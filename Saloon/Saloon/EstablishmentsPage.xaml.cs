@@ -1,36 +1,68 @@
 using Saloon.Models;
-using System;
-using System.Collections.ObjectModel;
 
 namespace Saloon
 {
     public partial class EstablishmentsPage : ContentPage
     {
-        private ObservableCollection<Establishment> _establishments;
-
         public EstablishmentsPage()
         {
             InitializeComponent();
-            _establishments = new ObservableCollection<Establishment>();
-            establishmentsListView.ItemsSource = _establishments;
         }
 
-        private void OnAddEstablishmentClicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await LoadEstablishments();
+        }
+
+        private async Task LoadEstablishments()
+        {
+            establishmentsListView.ItemsSource = await App.DatabaseInstance.GetEstablishmentsAsync();
+        }
+
+        private async void OnAddEstablishmentClicked(object sender, EventArgs e)
         {
             string establishmentName = establishmentNameEntry.Text;
             string location = establishmentLocationEntry.Text;
 
             if (string.IsNullOrWhiteSpace(establishmentName) || string.IsNullOrWhiteSpace(location))
             {
-                DisplayAlert("Ошибка", "Введите название и местоположение заведения", "OK");
+                await DisplayAlert("Ошибка", "Введите название и местоположение заведения", "OK");
                 return;
             }
 
             var establishment = new Establishment(establishmentName, location);
-            _establishments.Add(establishment);
+            await App.DatabaseInstance.SaveEstablishmentAsync(establishment);
 
             establishmentNameEntry.Text = string.Empty;
             establishmentLocationEntry.Text = string.Empty;
+
+            await LoadEstablishments();
+        }
+
+
+        private async void OnDeleteClicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var establishment = button?.CommandParameter as Establishment;
+            if (establishment != null)
+            {
+                bool answer = await DisplayAlert("Подтверждение", $"Вы уверены, что хотите удалить расчет '{establishment.Name}'?", "Да", "Нет");
+                if (answer)
+                {
+                    await App.DatabaseInstance.DeleteEstablishmentAsync(establishment);
+                    await LoadEstablishments();
+                }
+            }
+        }
+
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            // Сбрасываем выделение
+            if (sender is ListView listView)
+            {
+                listView.SelectedItem = null;
+            }
         }
     }
 }

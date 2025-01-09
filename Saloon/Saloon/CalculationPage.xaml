@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Saloon.CalculationPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Saloon.CalculationPage"
+             Title="Расчёт">
 
-    <StackLayout>
+    <StackLayout WidthRequest="800">
         <Label Text="Введите информацию о расчете" 
-               HorizontalOptions="CenterAndExpand" />
+               HorizontalOptions="CenterAndExpand" 
+               FontSize="Medium"/>
 
+        <Label/>
         <Entry x:Name="calculationNameEntry" Placeholder="Имя расчёта" />
         <Entry x:Name="totalAmountEntry" Placeholder="Сумма" Keyboard="Numeric" />
 
+        <Label/>
         <Button Text="Добавить расчёт"
                 Clicked="OnAddCalculationClicked" />
 
-        <ListView x:Name="calculationListView">
+        <Label/>
+        <ListView x:Name="calculationListView"
+                  ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding CalculationName}" Detail="{Binding TotalAmount}" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Label Text="{Binding CalculationName}" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding TotalAmount, StringFormat='{0:C}'}" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="CenterAndExpand"/>
+                            <Button Text="Рассчитать"
+                                    CommandParameter="{Binding .}"
+                                    HorizontalOptions="End"
+                                    Margin="5"/>
+                            <Button Text="Удалить" 
+                                    Clicked="OnDeleteClicked" 
+                                    CommandParameter="{Binding .}"
+                                    HorizontalOptions="End"
+                                    Margin="5"
+                                    TextColor="White"
+                                    BackgroundColor="DarkRed"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

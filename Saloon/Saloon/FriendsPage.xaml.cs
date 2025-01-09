@@ -1,33 +1,61 @@
 using Saloon.Models;
-using System;
-using System.Collections.ObjectModel;
 
 namespace Saloon
 {
     public partial class FriendsPage : ContentPage
     {
-        private ObservableCollection<Friend> _friends;
-
         public FriendsPage()
         {
             InitializeComponent();
-            _friends = new ObservableCollection<Friend>();
-            friendsListView.ItemsSource = _friends;
         }
 
-        private void OnAddFriendClicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            string friendName = friendNameEntry.Text;
-            if (string.IsNullOrWhiteSpace(friendName))
+            base.OnAppearing();
+            friendsList.ItemsSource = await App.DatabaseInstance.GetFriendsAsync();
+        }
+
+        private async Task LoadFriends()
+        {
+            friendsList.ItemsSource = await App.DatabaseInstance.GetFriendsAsync();
+        }
+
+        private async void OnAddFriendClicked(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(nameEntry.Text))
             {
-                DisplayAlert("Ошибка", "Введите имя друга", "OK");
-                return;
+                await App.DatabaseInstance.SaveFriendAsync(new Friend
+                {
+                    Name = nameEntry.Text
+                });
+
+                nameEntry.Text = string.Empty;
+                friendsList.ItemsSource = await App.DatabaseInstance.GetFriendsAsync();
             }
+        }
 
-            var friend = new Friend(friendName);
-            _friends.Add(friend);
+        private async void OnDeleteClicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var friend = button?.CommandParameter as Friend;
+            if (friend != null)
+            {
+                bool answer = await DisplayAlert("Подтверждение", $"Вы уверены, что хотите удалить расчет '{friend.Name}'?", "Да", "Нет");
+                if (answer)
+                {
+                    await App.DatabaseInstance.DeleteFriendAsync(friend);
+                    await LoadFriends();
+                }
+            }
+        }
 
-            friendNameEntry.Text = string.Empty;
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            // Сбрасываем выделение
+            if (sender is ListView listView)
+            {
+                listView.SelectedItem = null;
+            }
         }
     }
 }

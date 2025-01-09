@@ -9,11 +9,11 @@
         ContentTemplate="{DataTemplate local:CalculationPage}"
         Route="CalculationPage"/>
     <ShellContent
-        Title="Establishment"
+        Title="Заведения"
         ContentTemplate="{DataTemplate local:EstablishmentsPage}" 
         Route="EstablishmentPage"/>
     <ShellContent 
-        Title="Friends"
+        Title="Друзья"
         ContentTemplate="{DataTemplate local:FriendsPage}" 
         Route="FriendsPage"/>
 
