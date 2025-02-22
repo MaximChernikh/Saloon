@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Saloon.CalculationResultPage"
+             Title="Результаты расчета">
+    <StackLayout Padding="20"
+>
+        <Label Text="Результаты расчета:" FontSize="Large" Margin="0,0,0,20"/>
+        <ListView x:Name="payersListView" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout>
+                            <Label Text="{Binding PayerName}" FontSize="Medium" FontAttributes="Bold"/>
+                            <ListView ItemsSource="{Binding Debtors}" HasUnevenRows="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Friend.Name}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" VerticalOptions="Center" HorizontalOptions="End"/>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Назад к расчету" Clicked="OnBackToCalculationClicked" Margin="0,20,0,0"/>
+    </StackLayout>
+</ContentPage>

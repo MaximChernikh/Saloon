@@ -24,6 +24,13 @@ namespace Saloon
         {
             if (!string.IsNullOrWhiteSpace(nameEntry.Text))
             {
+                var existingFriends = await App.DatabaseInstance.GetFriendsAsync();
+                if (existingFriends.Any(f => f.Name.Equals(nameEntry.Text)))
+                {
+                    await DisplayAlert("пїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "OK");
+                    return;
+                }
+
                 await App.DatabaseInstance.SaveFriendAsync(new Friend
                 {
                     Name = nameEntry.Text
@@ -40,7 +47,7 @@ namespace Saloon
             var friend = button?.CommandParameter as Friend;
             if (friend != null)
             {
-                bool answer = await DisplayAlert("Подтверждение", $"Вы уверены, что хотите удалить расчет '{friend.Name}'?", "Да", "Нет");
+                bool answer = await DisplayAlert("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", $"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ '{friend.Name}'?", "пїЅпїЅ", "пїЅпїЅпїЅ");
                 if (answer)
                 {
                     await App.DatabaseInstance.DeleteFriendAsync(friend);
@@ -51,7 +58,6 @@ namespace Saloon
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            // Сбрасываем выделение
             if (sender is ListView listView)
             {
                 listView.SelectedItem = null;

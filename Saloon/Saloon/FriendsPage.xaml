@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Saloon.FriendsPage"
              Title="Друзья">
-    <StackLayout WidthRequest="800">
+    <StackLayout WidthRequest="1000">
         <Label/>
         <Entry x:Name="nameEntry" Placeholder="Введите имя друга" />
 
         <Label/>
-        <Button Text="Add Friend" Clicked="OnAddFriendClicked" />
+        <Button Text="Добавить друга" Clicked="OnAddFriendClicked" />
 
         <Label/>
 

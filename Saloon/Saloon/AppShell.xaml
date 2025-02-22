@@ -8,10 +8,6 @@
         Title="Расчёт"
         ContentTemplate="{DataTemplate local:CalculationPage}"
         Route="CalculationPage"/>
-    <ShellContent
-        Title="Заведения"
-        ContentTemplate="{DataTemplate local:EstablishmentsPage}" 
-        Route="EstablishmentPage"/>
     <ShellContent 
         Title="Друзья"
         ContentTemplate="{DataTemplate local:FriendsPage}" 

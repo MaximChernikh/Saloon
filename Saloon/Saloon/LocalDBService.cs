@@ -15,7 +15,6 @@ namespace Saloon.Services
             _database.CreateTableAsync<Calculation>().Wait();
         }
 
-        // Существующие методы для Friend
         public Task<List<Friend>> GetFriendsAsync()
         {
             return _database.Table<Friend>().ToListAsync();
@@ -38,7 +37,6 @@ namespace Saloon.Services
             return _database.DeleteAsync(friend);
         }
 
-        // Методы для Establishment
         public Task<List<Establishment>> GetEstablishmentsAsync()
         {
             return _database.Table<Establishment>().ToListAsync();

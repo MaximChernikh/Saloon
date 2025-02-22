@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Saloon.CalculationPage"
-             Title="Расчёт">
+             x:Class="Saloon.CalculationPage">
 
-    <StackLayout WidthRequest="800">
+    <StackLayout WidthRequest="1000">
         <Label Text="Введите информацию о расчете" 
                HorizontalOptions="CenterAndExpand" 
                FontSize="Medium"/>
 
         <Label/>
         <Entry x:Name="calculationNameEntry" Placeholder="Имя расчёта" />
-        <Entry x:Name="totalAmountEntry" Placeholder="Сумма" Keyboard="Numeric" />
+        <DatePicker x:Name="partyingDate"
+                    WidthRequest="1000"
+                    TextColor="Gray" />
 
         <Label/>
         <Button Text="Добавить расчёт"
@@ -19,28 +20,31 @@
 
         <Label/>
         <ListView x:Name="calculationListView"
-                  ItemSelected="OnItemSelected">
+          ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="5">
+                        <StackLayout Orientation="Vertical" Padding="5">
                             <Label Text="{Binding CalculationName}" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="StartAndExpand"/>
-                            <Label Text="{Binding TotalAmount, StringFormat='{0:C}'}" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="CenterAndExpand"/>
-                            <Button Text="Рассчитать"
-                                    CommandParameter="{Binding .}"
-                                    HorizontalOptions="End"
-                                    Margin="5"/>
-                            <Button Text="Удалить" 
-                                    Clicked="OnDeleteClicked" 
-                                    CommandParameter="{Binding .}"
-                                    HorizontalOptions="End"
-                                    Margin="5"
-                                    TextColor="White"
-                                    BackgroundColor="DarkRed"/>
+                           VerticalOptions="Center" 
+                           HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}" 
+                           FontSize="Small"
+                           TextColor="Gray"/>
+                            <StackLayout Orientation="Horizontal">
+                                <Button Text="{Binding IsCalculated, Converter={StaticResource BoolToStringConverter}, ConverterParameter='Рассчитать,Посмотреть'}"
+                                Clicked="OnCalculateOrViewClicked"
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="StartAndExpand"
+                                Margin="5"/>
+                                <Button Text="Удалить" 
+                                Clicked="OnDeleteClicked" 
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="End"
+                                Margin="5"
+                                TextColor="White"
+                                BackgroundColor="DarkRed"/>
+                            </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

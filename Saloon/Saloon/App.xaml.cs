@@ -11,7 +11,7 @@ namespace Saloon
             {
                 if (Database == null)
                 {
-                    Database = new DatabaseService(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Friends.db3"));
+                    Database = new DatabaseService(Directory.GetCurrentDirectory() + "Friends.db3");
                 }
                 return Database;
             }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Saloon.DebtCalculationPage"
+             Title="Расчет долга">
+    <ScrollView>
+        <StackLayout Padding="20"
+                     WidthRequest="1000">
+            <Button Text="Добавить заведение" Clicked="OnAddEstablishmentClicked" Margin="0,0,0,20"/>
+
+            <ListView x:Name="establishmentsListView" ItemSelected="OnEstablishmentSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding Establishment.Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                <Picker ItemsSource="{Binding FriendExpenses}" 
+                                        ItemDisplayBinding="{Binding Friend.Name}"
+                                        SelectedIndex="{Binding Index}"
+                                        SelectedIndexChanged="OnPayerSelected"
+                                        Title="Выберите плательщика"/>
+                                <ListView ItemsSource="{Binding FriendExpenses}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label Text="{Binding Friend.Name}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                                                    <Entry Placeholder="Сумма" Keyboard="Numeric" WidthRequest="100" 
+                                                           Text="{Binding Amount, Mode=TwoWay}"/>
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Button Text="Добавить друга" Clicked="OnAddFriendToEstablishmentClicked" CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Рассчитать" Clicked="OnCalculateClicked" Margin="0,20,0,0"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

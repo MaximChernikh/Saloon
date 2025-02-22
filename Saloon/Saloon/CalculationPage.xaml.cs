@@ -4,9 +4,12 @@ namespace Saloon
 {
     public partial class CalculationPage : ContentPage
     {
+        private List<Calculation> _calculations;
+
         public CalculationPage()
         {
             InitializeComponent();
+            _calculations = new List<Calculation>();
         }
 
         protected override async void OnAppearing()
@@ -17,29 +20,25 @@ namespace Saloon
 
         private async Task LoadCalculations()
         {
-            calculationListView.ItemsSource = await App.DatabaseInstance.GetCalculationsAsync();
+            var calculations = await App.DatabaseInstance.GetCalculationsAsync();
+            calculationListView.ItemsSource = calculations;
         }
+
 
         private async void OnAddCalculationClicked(object sender, EventArgs e)
         {
             string calculationName = calculationNameEntry.Text;
             if (string.IsNullOrWhiteSpace(calculationName))
             {
-                await DisplayAlert("Ошибка", "Введите имя расчета", "OK");
+                await DisplayAlert("пїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "OK");
                 return;
             }
 
-            if (!decimal.TryParse(totalAmountEntry.Text, out decimal totalAmount))
-            {
-                await DisplayAlert("Ошибка", "Введите корректную сумму", "OK");
-                return;
-            }
-
-            var calculation = new Calculation(calculationName, DateTime.Now, totalAmount);
+            var calculation = new Calculation(calculationName, partyingDate.Date);
             await App.DatabaseInstance.SaveCalculationAsync(calculation);
 
             calculationNameEntry.Text = string.Empty;
-            totalAmountEntry.Text = string.Empty;
+            partyingDate.Date = DateTime.Now;
 
             await LoadCalculations();
         }
@@ -50,7 +49,7 @@ namespace Saloon
             var calculation = button?.CommandParameter as Calculation;
             if (calculation != null)
             {
-                bool answer = await DisplayAlert("Подтверждение", $"Вы уверены, что хотите удалить расчет '{calculation.CalculationName}'?", "Да", "Нет");
+                bool answer = await DisplayAlert("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", $"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ '{calculation.CalculationName}'?", "пїЅпїЅ", "пїЅпїЅпїЅ");
                 if (answer)
                 {
                     await App.DatabaseInstance.DeleteCalculationAsync(calculation);
@@ -61,11 +60,58 @@ namespace Saloon
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            // Сбрасываем выделение
             if (sender is ListView listView)
             {
                 listView.SelectedItem = null;
             }
+        }
+        private async void OnCalculateOrViewClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+
+                if (button == null)
+                    return;
+
+                var calculation = button.CommandParameter as Calculation;
+
+                if (calculation == null)
+                    return;
+
+                if (button.Text == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
+                {
+                    var debtCalculationPage = new DebtCalculationPage(calculation);
+                    await Navigation.PushAsync(debtCalculationPage);
+                }
+                else if (button.Text == "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
+                {
+                    await Navigation.PushAsync(new CalculationResultPage(calculation));
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("пїЅпїЅпїЅпїЅпїЅпїЅ", $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: {ex.Message}", "OK");
+            }
+        }
+
+    }
+
+    public class BoolToStringConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is bool boolValue && parameter is string stringParameter)
+            {
+                var options = stringParameter.Split(',');
+                return boolValue ? options[1] : options[0];
+            }
+            return value;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

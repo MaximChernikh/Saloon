@@ -38,7 +38,10 @@
 	  <MauiXaml Update="CalculationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EstablishmentsPage.xaml">
+	  <MauiXaml Update="CalculationResultPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="DebtCalculationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="FriendsPage.xaml">

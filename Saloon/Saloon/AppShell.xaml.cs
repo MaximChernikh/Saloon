@@ -9,8 +9,8 @@ namespace Saloon
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(CalculationPage), typeof(CalculationPage));
-            Routing.RegisterRoute(nameof(EstablishmentsPage), typeof(EstablishmentsPage));
-            Routing.RegisterRoute(nameof(FriendsPage), typeof(FriendsPage));
+            Routing.RegisterRoute(nameof(DebtCalculationPage), typeof(DebtCalculationPage));
+            Routing.RegisterRoute(nameof(CalculationResultPage), typeof(CalculationResultPage));
         }
     }
 }
